@@ -1,4 +1,5 @@
 import { GraduationCap, School } from "lucide-react";
+import {Subject, UserRole} from "@/types";
 
 export const USER_ROLES = {
     STUDENT: "student",
@@ -55,15 +56,83 @@ export const ALLOWED_TYPES = [
     "image/webp",
 ];
 
-export const CLOUDINARY_UPLOAD_URL = import.meta.env.VITE_CLOUDINARY_UPLOAD_URL;
-export const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-export const BACKEND_BASE_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+const getEnvVar = (key: string) => {
+    const value = import.meta.env[key];
+    if (!value) {
+        throw new Error(`Missing environment variable: ${key}`);
+    }
+    return value;
+};
 
-export const BASE_URL = import.meta.env.VITE_API_URL;
-export const ACCESS_TOKEN_KEY = import.meta.env.VITE_ACCESS_TOKEN_KEY;
-export const REFRESH_TOKEN_KEY = import.meta.env.VITE_REFRESH_TOKEN_KEY;
+export const CLOUDINARY_UPLOAD_URL = getEnvVar("VITE_CLOUDINARY_UPLOAD_URL");
+export const CLOUDINARY_CLOUD_NAME = getEnvVar("VITE_CLOUDINARY_CLOUD_NAME");
+export const BACKEND_BASE_URL = getEnvVar("VITE_BACKEND_BASE_URL");
+
+export const BASE_URL = getEnvVar("VITE_API_URL");
+export const ACCESS_TOKEN_KEY = getEnvVar("VITE_ACCESS_TOKEN_KEY");
+export const REFRESH_TOKEN_KEY = getEnvVar("VITE_REFRESH_TOKEN_KEY");
 
 export const REFRESH_TOKEN_URL = `${BASE_URL}/refresh-token`;
 
-export const CLOUDINARY_UPLOAD_PRESET = import.meta.env
-    .VITE_CLOUDINARY_UPLOAD_PRESET;
+export const CLOUDINARY_UPLOAD_PRESET = getEnvVar("VITE_CLOUDINARY_UPLOAD_PRESET");
+
+export const TEACHERS = [
+    {
+        id: 1,
+        name: "John Doe",
+        code: "JD",
+        role: UserRole.TEACHER,
+        email: "john.doe@example.com",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    },
+    {
+        id: 2,
+        name: "Jane Smith",
+        code: "JS",
+        role: UserRole.TEACHER,
+        email: "jane.smith@example.com",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    },
+    {
+        id: 3,
+        name: "Albert Einstein",
+        code: "AE",
+        role: UserRole.TEACHER,
+        email: "albert.einstein@example.com",
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+    }
+] as const;
+
+export const SUBJECTS = [
+    {
+        id: 1,
+        name: "Mathematics",
+        code: "MATH",
+        description: "Mathematics",
+        department: "Mathematics",
+    },
+    {
+        id: 2,
+        name: "Physics",
+        code: "PHYS",
+        description: "Physics",
+        department: "Physics",
+    },
+    {
+        id: 3,
+        name: "Biology",
+        code: "BIOL",
+        description: "Biology",
+        department: "Biology",
+    },
+    {
+        id: 4,
+        name: "Chemistry",
+        code: "CHEM",
+        description: "Chemistry",
+        department: "Chemistry",
+    }
+] as const;

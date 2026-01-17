@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
-  useBack,
+  useGo,
   useResourceParams,
   useUserFriendlyName,
 } from "@refinedev/core";
@@ -38,7 +38,7 @@ export const EditViewHeader = ({
   wrapperClassName,
   headerClassName,
 }: EditViewHeaderProps) => {
-  const back = useBack();
+  const go = useGo();
 
   const getUserFriendlyName = useUserFriendlyName();
 
@@ -75,7 +75,7 @@ export const EditViewHeader = ({
         )}
       >
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" onClick={back}>
+          <Button variant="ghost" size="icon" onClick={() => go({ to: { resource: identifier ?? resource?.name, action: "list" } })}>
             <ArrowLeftIcon className="h-4 w-4" />
           </Button>
           <h2 className="text-2xl font-bold">{title}</h2>
