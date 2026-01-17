@@ -24,7 +24,7 @@ import { CreateView } from "@/components/refine-ui/views/create-view";
 import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 
 import { Textarea } from "@/components/ui/textarea";
-import { useBack, useList } from "@refinedev/core";
+import { useGo } from "@refinedev/core";
 import { Loader2 } from "lucide-react";
 import { classSchema } from "@/lib/schema";
 import z from "zod";
@@ -32,7 +32,7 @@ import {SUBJECTS, TEACHERS} from "@/constants";
 import UploadWidget from "@/components/upload-widget.tsx";
 
 const ClassesCreate = () => {
-    const back = useBack();
+    const go = useGo();
 
     const form = useForm({
         resolver: zodResolver(classSchema),
@@ -52,7 +52,7 @@ const ClassesCreate = () => {
         control,
     } = form;
 
-    const bannerPublicId = form.watch("bannerCldPubId");
+    const bannerPublicId = form.watch("bannerCldPubId") as string | undefined;
 
     const setBannerImage = (file: any, field: any) => {
         if(file){
@@ -87,7 +87,7 @@ const ClassesCreate = () => {
             <h1 className="page-title">Create a Class</h1>
             <div className="intro-row">
                 <p>Provide the required information below to add a class.</p>
-                <Button onClick={() => back()}>Go Back</Button>
+                <Button onClick={() => go({ to: { resource: "classes", action: "list" } })}>Go Back</Button>
             </div>
 
             <Separator />
@@ -113,7 +113,7 @@ const ClassesCreate = () => {
                                             <FormLabel>Banner Image <span className='text-orange-600'>*</span></FormLabel>
                                             <FormControl>
                                                 <UploadWidget
-                                                    value={field.value ? {url: field.value, publicId: bannerPublicId ?? ''} : null}
+                                                    value={field.value ? {url: field.value, publicId: bannerPublicId ?? ''} : undefined}
                                                     onChange={(file: any )=>setBannerImage(file, field)}
 
                                                 />

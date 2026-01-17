@@ -28,7 +28,8 @@ const scheduleSchema = z.object({
 
 export const classSchema = z.object({
     name: z
-        .string()
+        .string({ required_error: "Class Name is required" })
+        .min(1, "Class Name is required")
         .min(2, "Class name must be at least 2 characters")
         .max(50, "Class name must be at most 50 characters"),
     description: z
@@ -40,7 +41,7 @@ export const classSchema = z.object({
             invalid_type_error: "Subject is required",
         })
         .min(1, "Subject is required"),
-    teacherId: z.string().min(1, "Teacher is required"),
+    teacherId: z.string({ required_error: "Teacher is required" }).min(1, "Teacher is required"),
     capacity: z.coerce
         .number({
             required_error: "Capacity is required",
