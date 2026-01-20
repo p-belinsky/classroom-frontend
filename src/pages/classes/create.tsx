@@ -24,12 +24,12 @@ import { CreateView } from "@/components/refine-ui/views/create-view";
 import { Breadcrumb } from "@/components/refine-ui/layout/breadcrumb";
 
 import { Textarea } from "@/components/ui/textarea";
-import { useGo } from "@refinedev/core";
+import {useGo, useList} from "@refinedev/core";
 import { Loader2 } from "lucide-react";
 import { classSchema } from "@/lib/schema";
 import z from "zod";
-import {SUBJECTS, TEACHERS} from "@/constants";
 import UploadWidget from "@/components/upload-widget.tsx";
+import {Subject, User} from "@/types";
 
 const ClassesCreate = () => {
     const go = useGo();
@@ -51,6 +51,23 @@ const ClassesCreate = () => {
         formState: { isSubmitting, errors },
         control,
     } = form;
+
+    const { query: subjectsQuery } = useList<Subject>({
+        resource: "subjects",
+        pagination: { pageSize: 100 },
+    })
+
+    const { query: teachersQuery } = useList<User>({
+        resource: "users",
+        filters: [{ field: "role", operator: "eq", value: "teacher" }],
+        pagination: { pageSize: 100 },
+    })
+
+    const subjects = subjectsQuery.data?.data ?? [];
+    const subjectsLoading = subjectsQuery.isLoading;
+
+    const teachers = teachersQuery.data?.data ?? [];
+    const teachersLoading = teachersQuery.isLoading;
 
     const bannerPublicId = form.watch("bannerCldPubId") as string | undefined;
 
@@ -161,6 +178,7 @@ const ClassesCreate = () => {
                                                         field.onChange(Number(value))
                                                     }
                                                     value={field.value?.toString()}
+                                                    disabled={subjectsLoading}
 
                                                 >
                                                     <FormControl>
@@ -169,7 +187,7 @@ const ClassesCreate = () => {
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
-                                                        {SUBJECTS.map((subject) => (
+                                                        {subjects.map((subject) => (
                                                             <SelectItem
                                                                 key={subject.id}
                                                                 value={subject.id.toString()}
@@ -195,6 +213,7 @@ const ClassesCreate = () => {
                                                 <Select
                                                     onValueChange={field.onChange}
                                                     value={field.value?.toString()}
+                                                    disabled={teachersLoading}
 
                                                 >
                                                     <FormControl>
@@ -203,7 +222,7 @@ const ClassesCreate = () => {
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
-                                                        {TEACHERS.map((teacher) => (
+                                                        {teachers.map((teacher) => (
                                                             <SelectItem key={teacher.id} value={String(teacher.id)}>
                                                                 {teacher.name}
                                                             </SelectItem>
