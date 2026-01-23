@@ -11,16 +11,16 @@ import {bannerPhoto} from "@/lib/cloudinary.ts";
 
 const Show = () => {
 
-    const { query } = useShow<ClassDetails>({resource: "classes"});
+    const {query} = useShow<ClassDetails>({resource: "classes"});
 
     const classDetails = query.data?.data;
 
-    const { isLoading, isError } = query;
+    const {isLoading, isError} = query;
 
-    if(isLoading || isError || !classDetails) {
+    if (isLoading || isError || !classDetails) {
         return (
             <ShowView className='class-view class-show'>
-                <ShowViewHeader resource='classes' title='Class Details' />
+                <ShowViewHeader resource='classes' title='Class Details'/>
 
                 <p className='state-message'>
                     {isLoading ? 'Loading class details... ' : isError ? 'Failed to load class details...' : 'Class details not found.'}
@@ -34,21 +34,41 @@ const Show = () => {
         teacherName
             .split(' ')
             .filter(Boolean)
-            .slice(0,2)
+            .slice(0, 2)
             .map((part) => part[0]?.toUpperCase())
             .join('')
 
     const placeholderUrl = `https://placehold.co/600x400?text=${encodeURIComponent(teachersInitials || 'NA')}`
 
-    const { bannerUrl, name, description, status, capacity, courseName, courseCode, bannerCldPubId, subject, teacher, department, schedules, inviteCode } = classDetails;
+    const {
+        bannerUrl,
+        name,
+        description,
+        status,
+        capacity,
+        courseName,
+        courseCode,
+        bannerCldPubId,
+        subject,
+        teacher,
+        department,
+        schedules,
+        inviteCode
+    } = classDetails;
 
 
     return (
         <ShowView className='class-view class-show space-y-6'>
-            <ShowViewHeader resource='classes' title='Class Details' />
+            <ShowViewHeader resource='classes' title='Class Details'/>
 
             <div className='banner'>
-                {bannerUrl ?( <AdvancedImage alt="Class Banner" cldImg={bannerPhoto(bannerCldPubId ?? "", name)}/> ) : <div className='placeholder'/>}
+                {bannerCldPubId ? (
+                    <AdvancedImage alt="Class Banner" cldImg={bannerPhoto(bannerCldPubId, name)}/>
+                ) : bannerUrl ? (
+                    <img src={bannerUrl} alt="Class Banner"/>
+                ) : (
+                    <div className='placeholder'/>
+                )}
             </div>
 
             <Card className='details-card'>
@@ -60,7 +80,8 @@ const Show = () => {
 
                     <div>
                         <Badge variant='outline'>{capacity} spots</Badge>
-                        <Badge variant={status === 'active' ? 'default' : 'secondary'} data-status={status}>{status.toUpperCase()}</Badge>
+                        <Badge variant={status === 'active' ? 'default' : 'secondary'}
+                               data-status={status}>{status.toUpperCase()}</Badge>
                     </div>
                 </div>
 
