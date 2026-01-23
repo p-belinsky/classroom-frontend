@@ -19,6 +19,7 @@ import SubjectsList from "@/pages/subjects/list.tsx";
 import SubjectsCreate from "@/pages/subjects/create.tsx";
 import ClassesList from "@/pages/classes/list.tsx";
 import ClassesCreate from "@/pages/classes/create.tsx";
+import ClassesShow from "@/pages/classes/show.tsx";
 
 function App() {
     return (
@@ -43,8 +44,9 @@ function App() {
                                     name: 'subjects', list: '/subjects', create:'/subjects/create', meta: { label: 'Subjects', icon: <BookOpen/> }
                                 },
                                 {
-                                    name: 'classes', list: '/classes', create:'/classes/create', meta: { label: 'Classes', icon: <GraduationCap/> }
-                                }
+                                    name: 'classes', list: '/classes', create:'/classes/create', show: '/classes/show/:id', meta: { label: 'Classes', icon: <GraduationCap/> }
+                                },
+
 
                             ]}
                         >
@@ -62,6 +64,7 @@ function App() {
                                     <Route path='classes'>
                                         <Route index element={<ClassesList/>}/>
                                         <Route path='create' element={<ClassesCreate/>}/>
+                                        <Route path='show/:id' element={<ClassesShow/>}/>
                                     </Route>
                                 </Route>
                             </Routes>

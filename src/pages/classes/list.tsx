@@ -12,6 +12,7 @@ import {DEPARTMENT_OPTIONS} from "@/constants";
 import {CreateButton} from "@/components/refine-ui/buttons/create.tsx";
 import {DataTable} from "@/components/refine-ui/data-table/data-table.tsx";
 import {useList} from "@refinedev/core";
+import {ShowButton} from "@/components/refine-ui/buttons/show.tsx";
 
 const ClassesList = () => {
     const [searchQuery, setSearchQuery] = useState('')
@@ -113,6 +114,12 @@ const ClassesList = () => {
                     header: () => <p className="column-title">Capacity</p>,
                     cell: ({ getValue}) => <span className='text-foreground'>{getValue<string>()}</span>,
                 },
+            {
+                id: 'details',
+                size: 140,
+                header: () => <p className="column-title">Details</p>,
+                cell: ({row}) => <ShowButton resource='classes' recordItemId={row.original.id} variant='outline' size='sm'>View</ShowButton>
+            }
         ], []);
 
     const classesTable = useTable<ClassDetails>({
