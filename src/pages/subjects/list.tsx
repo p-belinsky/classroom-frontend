@@ -11,11 +11,13 @@ import {useTable} from "@refinedev/react-table";
 import {Department, Subject} from "@/types";
 import {ColumnDef} from "@tanstack/react-table";
 import {Badge} from "@/components/ui/badge.tsx";
-import {useList} from "@refinedev/core";
+import {useGetIdentity, useList} from "@refinedev/core";
+import {authProvider} from "@/providers/auth.ts";
 
 const SubjectsList = () => {
     const [searchQuery, setSearchQuery] = useState('')
     const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('')
+  
 
     React.useEffect(() => {
         const timer = setTimeout(() => {
@@ -134,7 +136,8 @@ const SubjectsList = () => {
                                 ))}
                             </SelectContent>
                         </Select>
-                        <CreateButton/>
+
+                        <CreateButton accessControl={{ hideIfUnauthorized: true }} />
                     </div>
                 </div>
             </div>

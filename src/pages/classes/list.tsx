@@ -209,7 +209,7 @@ const ClassesList = () => {
 
 
 
-                        <CreateButton resource="classes"/>
+                        <CreateButton resource="classes" accessControl={{ hideIfUnauthorized: true }} />
                     </div>
                 </div>
             </div>
